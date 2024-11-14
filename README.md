@@ -2,14 +2,26 @@
 
 **私自身なんで動いているかわかりません！動作保証できません！**
 
-*作成していたPOSシステムを公開用にしたものです。*
-*一切を自己責任でお願いします。*
+各種勉強目的で作成していたPOSシステムを公開用にしたものです。
+一切を自己責任でお願いします。
 
 **このプロジェクトは、[mizunoshota2001](https://github.com/mizunoshota2001) 氏作成の [tutorial-CSJWindowsPOSSDK-for-python](tutorial-CSJWindowsPOSSDK-for-python) を使用しています。**
 
 ## はじめに
 
-`install.bat`を実行してください。
+### 必要なもの
+
+[]内は私の環境です
+
+- Windows(とりあえず10以上) [Windows11]
+- Python 3.11ぐらい [Python 3.11.5]
+- Reactが動かせる環境 [node v20.18.0]
+- 何らかのデータベース [MySQL 8.0]
+- citizen製レシートプリンター(Citizen Systems 株式会社 Windows POS Print SDKに対応したもの)(プリンターの接続にBluetoothを使用) [CT-S281BD]
+- VOICEVOXエンジン [GPU版 0.20.0]
+- (ローカルネットワーク内のデバイスでも接続できます)
+
+初回は`install.bat`を実行してください。
 たぶんうごきます。
 
 ### SDKの入手及び配置
