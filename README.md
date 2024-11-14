@@ -9,11 +9,8 @@
 
 ## はじめに
 
-`backend`内で`pip install -r requirements.txt`を行ってください。
-
-`frontend`内で`npm install socket.io-client`を行ってください。
-
-ここら辺は一度に行えるようにしたいです。
+`install.bat`を実行してください。
+たぶんうごきます。
 
 ### SDKの入手及び配置
 
@@ -39,3 +36,7 @@ MySQLを想定しています。データベースを作成、起動し、`backe
 ## つかいかた
 
 がんばってわかりやすくします。
+
+### サーバサイド
+
+`start.py`をrunしたら動くかも。
