@@ -1,0 +1,158 @@
+<!-- templates/order.html -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div id="app" class="order-section">
+        <!-- 商品リスト -->
+        <div id="product-list" class="product-list">
+            <h2>商品リスト</h2>
+            <!-- JavaScriptで商品を動的に追加します -->
+        </div>
+
+        <!-- 注文リスト -->
+        <div id="order-items" class="order-items">
+            <h2>注文リスト</h2>
+            <!-- 選択した商品とオプションがここに表示されます -->
+        </div>
+
+        <!-- 注文確定ボタン -->
+        <button id="confirm-order" class="chakra-button">注文確定</button>
+
+        <!-- 商品追加フォーム -->
+        <div id="add-product-form" class="add-product-form">
+            <h2>商品追加</h2>
+            <form id="product-form">
+                <input type="text" id="product-name" placeholder="商品名" required>
+                <input type="text" id="product-category" placeholder="カテゴリー" required>
+                <input type="number" id="product-price" placeholder="価格" required>
+                <textarea id="product-description" placeholder="説明"></textarea>
+                <button type="submit" class="chakra-button">商品追加</button>
+            </form>
+        </div>
+
+        <!-- 商品管理画面へのリンク -->
+        <div class="manage-products">
+            <button onclick="window.location.href='/product_management'" class="chakra-button">商品管理画面</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let orderItemsData = [];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // 商品リストを取得して表示
+        fetch('/products')
+            .then(response => response.json())
+            .then(products => {
+                let productList = document.getElementById("product-list");
+                productList.innerHTML = ''; // 初期化してから商品を追加
+                products.forEach(product => {
+                    let button = document.createElement("button");
+                    button.className = "chakra-button";
+                    button.textContent = `${product.name} ¥${product.price}`;
+                    button.onclick = function () {
+                        addOrderItem(product.id, product.name, product.price);
+                    };
+                    productList.appendChild(button);
+                });
+            })
+            .catch(error => console.error('Error fetching product data:', error));
+
+        // 商品追加フォームの処理
+        document.getElementById("product-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const productName = document.getElementById("product-name").value;
+            const productCategory = document.getElementById("product-category").value;
+            const productPrice = parseFloat(document.getElementById("product-price").value);
+            const productDescription = document.getElementById("product-description").value;
+
+            const newProduct = {
+                name: productName,
+                category: productCategory,
+                price: productPrice,
+                description: productDescription
+            };
+
+            fetch('/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newProduct)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        let productList = document.getElementById("product-list");
+                        let button = document.createElement("button");
+                        button.className = "chakra-button";
+                        button.textContent = `${newProduct.name} ¥${newProduct.price}`;
+                        button.onclick = function () {
+                            addOrderItem(newProduct.id, newProduct.name, newProduct.price);
+                        };
+                        productList.appendChild(button);
+                        document.getElementById("product-form").reset();
+                    } else {
+                        console.error('商品追加に失敗しました');
+                    }
+                })
+                .catch(error => console.error('Error adding product:', error));
+        });
+    });
+
+    function addOrderItem(productId, productName, productPrice) {
+        // 注文リストに商品を追加
+        let orderItems = document.getElementById("order-items");
+        let item = document.createElement("div");
+        item.textContent = `${productName} - ¥${productPrice}`;
+        orderItems.appendChild(item);
+
+        // 注文データに追加
+        orderItemsData.push({
+            product_id: productId,
+            product_name: productName,
+            product_price: productPrice,
+            quantity: 1
+        });
+    }
+
+    document.getElementById("confirm-order").addEventListener("click", function () {
+        // 注文確定処理
+        if (orderItemsData.length === 0) {
+            alert('注文が空です');
+            return;
+        }
+
+        const orderData = {
+            orderL: orderItemsData.map(item => ({
+                id: item.product_id,
+                quantity: item.quantity
+            })),
+            totalL: orderItemsData.map(item => item.product_price),
+            total: orderItemsData.reduce((sum, item) => sum + item.product_price, 0),
+            payment: orderItemsData.reduce((sum, item) => sum + item.product_price, 0),
+            menuL: orderItemsData.map(item => ({
+                name: item.product_name,
+                price: item.product_price
+            }))
+        };
+
+        fetch('/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/pay?order_id=' + orderData.orderL[0].id + '&total=' + orderData.total;
+                } else {
+                    console.error('注文確定に失敗しました');
+                }
+            })
+            .catch(error => console.error('Error confirming order:', error));
+    });
+</script>
+{% endblock %}

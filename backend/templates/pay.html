@@ -1,0 +1,90 @@
+<!-- templates/pay.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支払い画面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chakra-ui/1.0.0/chakra.min.css">
+    <style>
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 200px;
+            margin: 20px auto;
+        }
+
+        .keypad button {
+            padding: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>支払い画面</h1>
+        <div>
+            <h2>注文内容</h2>
+            <ul>
+                {% for item in order_data['menuL'] %}
+                <li>{{ item['name'] }} - ¥{{ item['price'] }} × {{ item.get('quantity', 1) }}</li>
+                {% endfor %}
+            </ul>
+            <h3>合計金額: ¥{{ order_data['total'] }}</h3>
+        </div>
+        <div>
+            <h2>受取金額</h2>
+            <input type="number" id="payment" name="payment" readonly>
+        </div>
+        <div class="keypad">
+            {% for num in range(1, 10) %}
+            <button onclick="addNumber('{{ num }}')">{{ num }}</button>
+            {% endfor %}
+            <button onclick="clearInput()">C</button>
+            <button onclick="addNumber('0')">0</button>
+            <button onclick="deleteNumber()">←</button>
+        </div>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('pay_page') }}" method="post">
+            <input type="hidden" id="payment-form" name="payment">
+            <button type="submit" id="confirm-payment" disabled>注文確定</button>
+        </form>
+    </div>
+
+    <script>
+        const paymentInput = document.getElementById('payment');
+        const paymentFormInput = document.getElementById('payment-form');
+        const confirmButton = document.getElementById('confirm-payment');
+        const total = JSON.parse('{{ order_data["total"] | tojson | safe }}');
+
+        function addNumber(num) {
+            paymentInput.value += num;
+            paymentFormInput.value = paymentInput.value;
+            toggleConfirmButton();
+        }
+
+        function clearInput() {
+            paymentInput.value = '';
+            paymentFormInput.value = '';
+            toggleConfirmButton();
+        }
+
+        function deleteNumber() {
+            paymentInput.value = paymentInput.value.slice(0, -1);
+            paymentFormInput.value = paymentInput.value;
+            toggleConfirmButton();
+        }
+
+        function toggleConfirmButton() {
+            const paymentAmount = parseInt(paymentInput.value) || 0;
+            confirmButton.disabled = paymentAmount < total;
+        }
+    </script>
+</body>
+
+</html>

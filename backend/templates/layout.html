@@ -1,0 +1,25 @@
+<!-- layout.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chakra-ui/1.6.5/chakra-ui.min.css">
+    <title>POSシステム</title>
+</head>
+
+<body>
+    <header>
+        <div class="control-bar">
+            <a href="/">注文画面</a>
+            <a href="/product_management">商品管理</a>
+            <a href="/pay">支払い画面</a>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

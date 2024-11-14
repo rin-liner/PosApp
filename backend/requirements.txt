@@ -1,0 +1,11 @@
+flask
+flask_sqlalchemy
+flask-cors
+flask-socketio
+pymysql
+pyserial
+requests
+pyaudio
+mysql-connector-python
+eventlet
+pytz

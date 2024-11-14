@@ -1,0 +1,48 @@
+<!-- templates/product_management.html -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>商品管理画面</h2>
+    <form id="product-management-form">
+        <input type="text" id="product-name" placeholder="商品名" required>
+        <input type="text" id="product-category" placeholder="カテゴリー" required>
+        <input type="number" id="product-price" placeholder="価格" required>
+        <textarea id="product-description" placeholder="説明"></textarea>
+        <button type="submit" class="chakra-button">商品情報を更新</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("product-management-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const productName = document.getElementById("product-name").value;
+        const productCategory = document.getElementById("product-category").value;
+        const productPrice = parseFloat(document.getElementById("product-price").value);
+        const productDescription = document.getElementById("product-description").value;
+
+        const updatedProduct = {
+            name: productName,
+            category: productCategory,
+            price: productPrice,
+            description: productDescription
+        };
+
+        fetch('/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedProduct)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('商品情報が更新されました');
+                } else {
+                    console.error('商品情報の更新に失敗しました');
+                }
+            })
+            .catch(error => console.error('Error updating product:', error));
+    });
+</script>
+{% endblock %}
