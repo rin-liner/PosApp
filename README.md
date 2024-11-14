@@ -10,12 +10,15 @@
 ## はじめに
 
 `backend`内で`pip install -r requirements.txt`を行ってください。
+
 `frontend`内で`npm install socket.io-client`を行ってください。
+
 ここら辺は一度に行えるようにしたいです。
 
 ### SDKの入手及び配置
 
 以下より入手したSDKは`backend/csjwindowspossdk/Library`に配置してください。
+
 Citizen Systems 株式会社 Windows POS Print SDK
 [CSJWindowsPOSSDK_V206J.zip](https://www.citizen-systems.co.jp/cms/c-s/printer/download/sdk-print/CSJWindowsPOSSDK_V206J.zip)
 
@@ -30,6 +33,7 @@ MySQLを想定しています。データベースを作成、起動し、`backe
 ### VOICEVOXについて
 
 呼び出しにVOICEVOXエンジンを使用します。以下より入手、起動してください。
+
 [VOICEVOX](https://voicevox.hiroshiba.jp/)
 
 ## つかいかた
