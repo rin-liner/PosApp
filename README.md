@@ -28,7 +28,10 @@
 
 以下より入手したSDKは`backend/csjwindowspossdk/Library`に配置してください。
 
+詳しくは[tutorial-CSJWindowsPOSSDK-for-python](tutorial-CSJWindowsPOSSDK-for-python)参考
+
 Citizen Systems 株式会社 Windows POS Print SDK
+
 [CSJWindowsPOSSDK_V206J.zip](https://www.citizen-systems.co.jp/cms/c-s/printer/download/sdk-print/CSJWindowsPOSSDK_V206J.zip)
 
 ### プリンターの接続
@@ -52,3 +55,19 @@ MySQLを想定しています。データベースを作成、起動し、`backe
 ### サーバサイド
 
 `start.py`をrunしたら動くかも。
+
+→何してんの？
+
+- VOICEVOXの起動確認(localhost:50021をたたいてるだけ。自身の環境に合わせて)
+- データベースの疎通確認（同上）
+- backend(flask)のrun
+- frontend(React)のrun
+
+疎通確認等はconfigを参照し、まとめてできるようにします。
+
+### リスナー(listener)
+
+`backend/listener`を同一ローカルネットワーク内のデバイスに配置して下さい。
+`pip install -r requirements.txt`をしてください。
+このほかは`listener/README.md`を参照してください。
+なお、SSID等は実際に使用したもののままであり、現在は使用していません。
