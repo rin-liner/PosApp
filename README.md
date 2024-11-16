@@ -58,12 +58,11 @@ MySQLを想定しています。データベースを作成、起動し、`backe
 
 →何してんの？
 
-- VOICEVOXの起動確認(localhost:50021をたたいてるだけ。自身の環境に合わせて)
+- VOICEVOXの起動確認(configを参照しています)
 - データベースの疎通確認（同上）
+- レシートプリンターの疎通確認（同上。SDK使用）
 - backend(flask)のrun
 - frontend(React)のrun
-
-疎通確認等はconfigを参照し、まとめてできるようにします。
 
 ### リスナー(listener)
 
