@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 from flask_socketio import SocketIO, emit
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import db, Product, Order, OrderProduct
-from config import Config
+from config import DBConfig as Config
 import logging
 import pytz
 from datetime import datetime
