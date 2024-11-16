@@ -38,14 +38,13 @@ def check_database_connection():
 # Step 4: プリンター接続確認
 def check_printer_connection():
     printer = ESCPOSPrinter()
-    max_attempts = 3
     attempts = 0
-    while attempts < max_attempts and printer.Connect(BTConfig.CONTENT_TYPE, BTConfig.ADDR) != ESCPOSConst.CMP_SUCCESS:
+    while attempts < 3 and printer.Connect(BTConfig.CONTENT_TYPE, BTConfig.ADDR) != ESCPOSConst.CMP_SUCCESS:
         printer.Disconnect()
-        sleep(3)
+        sleep(5)
         print("Reconnecting...")
         attempts += 1
-    if attempts == max_attempts:
+    if attempts == 3:
         print("Failed to connect after 3 attempts.")
         printer.Disconnect()
         sys.exit(1)
@@ -58,9 +57,7 @@ def start_backend():
     print("Starting backend in a new console...")
     if os.name == 'nt':  # Windows
         subprocess.Popen(["start", "cmd", "/k", "python", "backend/app.py"], shell=True)
-    elif os.name == 'posix':  # macOS/Linux
-        subprocess.Popen(["gnome-terminal", "--", "python3", "backend/app.py"])
-    sleep(5)  # バックエンドが安定するまでの待機
+    sleep(3)
 
 # Step 5: フロントエンドの起動（別コンソール）
 def start_frontend():
@@ -68,8 +65,6 @@ def start_frontend():
     frontend_path = os.path.join("frontend", "Client", "my-app")
     if os.name == 'nt':  # Windows
         subprocess.Popen(["start", "cmd", "/k", "npm", "start", "--host", "0.0.0.0"], cwd=frontend_path, shell=True)
-    elif os.name == 'posix':  # macOS/Linux
-        subprocess.Popen(["gnome-terminal", "--", "npm", "start", "--host", "0.0.0.0"], cwd=frontend_path)
 
 # メイン処理
 if __name__ == "__main__":
