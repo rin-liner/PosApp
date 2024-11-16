@@ -2,6 +2,7 @@ import serial
 from PIL import Image
 import logging
 from pathlib import Path
+from config import SerialConfig as config
 
 __assets = Path(__file__).parent/"assets"
 BITMAP_PATH = str(__assets/"logoimg.bmp")
@@ -9,7 +10,7 @@ BITMAP_PATH = str(__assets/"logoimg.bmp")
 logger = logging.getLogger(__name__)
 
 class Printer:
-    def __init__(self, port='COM4', baudrate=38400):
+    def __init__(self, port=config.PORT, baudrate=config.BAUDRATE):
         self.port = port
         self.baudrate = baudrate
         self.logo = self.create_image_buffer("BITMAP_PATH")

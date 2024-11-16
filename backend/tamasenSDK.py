@@ -2,7 +2,7 @@ import __relimport
 from datetime import datetime
 import pytz
 import time
-import config
+from config import BTConfig as config
 from csjwindowspossdk import ESCPOSConst, ESCPOSPrinter
 from pathlib import Path
 

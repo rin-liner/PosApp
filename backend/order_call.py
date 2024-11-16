@@ -2,6 +2,7 @@ import requests
 import json
 import pyaudio
 import wave
+from config import VVConfig as config
 from pydub import AudioSegment
 import io
 from pathlib import Path
@@ -38,8 +39,6 @@ def vvox_test(text):
     """
     合成音声とcall.wavを結合して再生する。
     """
-    host = "127.0.0.1"
-    port = 50021
 
     params = (
         ('text', text),
@@ -48,13 +47,13 @@ def vvox_test(text):
 
     # 音声合成用のクエリを作成
     query = requests.post(
-        f'http://{host}:{port}/audio_query',
+        f'http://{config.HOST}:{config.PORT}/audio_query',
         params=params
     )
 
     # 音声合成を実施
     synthesis = requests.post(
-        f'http://{host}:{port}/synthesis',
+        f'http://{config.HOST}:{config.PORT}/synthesis',
         headers={"Content-Type": "application/json"},
         params=params,
         data=json.dumps(query.json())

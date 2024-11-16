@@ -1,7 +1,7 @@
 # init_db.py
 from flask import Flask
 from models import db, Product, Order, OrderProduct
-from config import Config
+from config import DBConfig as Config
 
 def initialize_db():
     app = Flask(__name__)
