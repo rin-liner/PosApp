@@ -1,6 +1,8 @@
 # config.py
 import os
-import __relimport
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
 from csjwindowspossdk import ESCPOSConst
 
 
